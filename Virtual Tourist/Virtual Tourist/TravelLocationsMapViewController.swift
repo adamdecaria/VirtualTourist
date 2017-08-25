@@ -9,25 +9,28 @@
 import UIKit
 import MapKit
 
-class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate {
+class TravelLocationsMapViewController : UIViewController, UINavigationControllerDelegate, MKMapViewDelegate {
     
     // MARK: Outlets
-    
     @IBOutlet weak var mapView: MKMapView!
     
     var pinnedLocations = [MKPointAnnotation]()
-
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "Virtual Tourist"
         mapView.delegate = self
+
     } // End viewDidLoad()
     
-    @IBAction func longPressPlacePin(_ gestureRecognizer: UILongPressGestureRecognizer) {
+    
+    @IBAction func longPressGesture(_ sender: UILongPressGestureRecognizer) {
         
-        if gestureRecognizer.state == .began {
+        if sender.state == .began {
             self.becomeFirstResponder()
             
             let pinnedLocation = MKPointAnnotation()
-            let point = gestureRecognizer.location(in: mapView)
+            let point = sender.location(in: mapView)
             let coordinates = mapView.convert(point, toCoordinateFrom: mapView)
             pinnedLocation.coordinate = coordinates
             
@@ -35,8 +38,7 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate {
             
             self.updateMapWithNewPin(locations: pinnedLocations)
         }
-        
-    } // End longPressPlacePin()
+    } // End longPressGesture()
     
     func updateMapWithNewPin(locations : [MKPointAnnotation]) {
         
@@ -54,10 +56,8 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate {
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-            pinView?.canShowCallout = true
             pinView?.pinTintColor = .red
             pinView?.animatesDrop = true
-            pinView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         } else {
             pinView?.annotation = annotation
         }
@@ -65,4 +65,10 @@ class TravelLocationsMapViewController : UIViewController, MKMapViewDelegate {
         return pinView
     } // End mapView()
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+  
+        let photoAlbumVC = self.storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
+        self.navigationController?.pushViewController(photoAlbumVC, animated: true)
+    } // End mapView()
+
 } // End TravelLocationsMapViewController

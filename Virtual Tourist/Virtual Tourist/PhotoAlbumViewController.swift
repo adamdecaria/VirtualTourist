@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class PhotoAlbumViewController : UIViewController {
+class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegate, MKMapViewDelegate {
     
     
 } // End PhotoAlbumViewController
