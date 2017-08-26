@@ -11,5 +11,11 @@ import MapKit
 
 class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegate, MKMapViewDelegate {
     
+    override func viewDidLoad() {
+        self.navigationItem.title = "Virtual Tourist"
+        
+        FlickrClient.sharedInstance().constructURLForFlickrAPI()
+    }
+    
     
 } // End PhotoAlbumViewController

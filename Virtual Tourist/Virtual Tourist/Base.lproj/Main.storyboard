@@ -48,7 +48,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="zJ5-yc-pMD"/>
+                    <navigationItem key="navigationItem" id="zJ5-yc-pMD">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="5Xi-WA-a6l"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="Eed-LB-Jog" id="DdK-Tg-fOY"/>
                     </connections>
@@ -75,7 +77,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HA7-Kp-sFq">
-                                <rect key="frame" x="0.0" y="75" width="320" height="128"/>
+                                <rect key="frame" x="0.0" y="62" width="320" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                         </subviews>
