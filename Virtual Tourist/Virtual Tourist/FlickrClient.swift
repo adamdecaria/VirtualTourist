@@ -64,8 +64,13 @@ class FlickrClient : NSObject {
                 return
             }
             
-            for photo in photos {
-                print("Key: ", photo.key)
+            guard let photoArray = photos["photo"] as? [[String:AnyObject]] else {
+                print("Cannot find photoArray")
+                return
+            }
+            
+            for photoDictionary in photoArray {
+                print("Title is: ", photoDictionary["title"]!)
             }
             
         } catch {

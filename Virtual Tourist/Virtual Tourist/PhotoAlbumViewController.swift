@@ -25,5 +25,4 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
         })
     }
     
-    
 } // End PhotoAlbumViewController
