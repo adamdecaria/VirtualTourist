@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iNw-Fa-9FR">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Virtual Tourist-->
+        <scene sceneID="RNp-W4-Rfc">
+            <objects>
+                <navigationController title="Virtual Tourist" id="iNw-Fa-9FR" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0FM-fM-P1V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="IIm-GC-wlf" kind="relationship" relationship="rootViewController" id="Uyg-GO-ZY2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eVf-DL-HZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="431" y="67"/>
+        </scene>
+        <!--TravelLocationsMapViewController-->
+        <scene sceneID="VzM-qe-0Q8">
+            <objects>
+                <viewController storyboardIdentifier="TravelLocationsMapViewController" title="TravelLocationsMapViewController" id="IIm-GC-wlf" customClass="TravelLocationsMapViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iaJ-FD-cdk"/>
+                        <viewControllerLayoutGuide type="bottom" id="AyV-fE-89J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="csF-h5-UJs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Eed-LB-Jog">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="uoW-7Q-L9v" appends="YES" id="LdQ-V6-Hr2"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zJ5-yc-pMD">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="5Xi-WA-a6l"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="Eed-LB-Jog" id="DdK-Tg-fOY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zlZ-QK-q6N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="uoW-7Q-L9v">
+                    <connections>
+                        <action selector="longPressGesture:" destination="IIm-GC-wlf" id="qSQ-gc-nMH"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1209" y="67"/>
+        </scene>
+        <!--Photo Album View Controller-->
+        <scene sceneID="gBo-as-fff">
+            <objects>
+                <viewController storyboardIdentifier="PhotoAlbumViewController" id="I2h-JQ-aCg" customClass="PhotoAlbumViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cSO-e0-N7D"/>
+                        <viewControllerLayoutGuide type="bottom" id="8wS-xS-t1a"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IaE-Kb-nBl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HA7-Kp-sFq">
+                                <rect key="frame" x="0.0" y="62" width="320" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JcS-t6-WVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1897.5" y="59.154929577464792"/>
+        </scene>
+    </scenes>
+</document>
