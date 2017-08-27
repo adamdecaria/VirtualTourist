@@ -14,7 +14,15 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
     override func viewDidLoad() {
         self.navigationItem.title = "Virtual Tourist"
         
-        FlickrClient.sharedInstance().constructURLForFlickrAPI()
+        FlickrClient.sharedInstance().getPhotos( completionHandler: { (results, success, error) in
+            
+            if success {
+                print("Success!")
+            } else {
+                print("Error")
+            }
+            
+        })
     }
     
     
