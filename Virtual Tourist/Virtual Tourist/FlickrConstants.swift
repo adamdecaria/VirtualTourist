@@ -27,7 +27,7 @@ struct FlickrConstants {
     }
     
     struct FlickrAPIDetails {
-        static let METHOD = "flickr.photos.getRecent"
+        static let METHOD = "flickr.photos.search"
         static let API_KEY = "707b3719e24370d2d18b60457b84ae6e"
         static let FORMAT = "json"
         static let NOJSONCALLBACK = "1"

@@ -10,12 +10,23 @@ import Foundation
 
 class FlickrClient : NSObject {
     
+    private var latitude: String = ""
+    private var longitude: String = ""
+    
+    private var photoURLArray = [String]()
+    
+    
     func constructURLForFlickrAPI() -> String {
     
-        let flickrURL = "\(FlickrConstants.FlickrWebAddress.SCHEME)\(FlickrConstants.FlickrWebAddress.HOST)\(FlickrConstants.FlickrWebAddress.PATH)?\(FlickrConstants.FlickrAPI.METHOD)\(FlickrConstants.FlickrAPIDetails.METHOD)&\(FlickrConstants.FlickrAPI.API_KEY)\(FlickrConstants.FlickrAPIDetails.API_KEY)&\(FlickrConstants.FlickrAPI.FORMAT)\(FlickrConstants.FlickrAPIDetails.FORMAT)&\(FlickrConstants.FlickrAPI.NOJSONCALLBACK)\(FlickrConstants.FlickrAPIDetails.NOJSONCALLBACK)"
+        let flickrURL = "\(FlickrConstants.FlickrWebAddress.SCHEME)\(FlickrConstants.FlickrWebAddress.HOST)\(FlickrConstants.FlickrWebAddress.PATH)?\(FlickrConstants.FlickrAPI.METHOD)\(FlickrConstants.FlickrAPIDetails.METHOD)&\(FlickrConstants.FlickrAPI.API_KEY)\(FlickrConstants.FlickrAPIDetails.API_KEY)&\(FlickrConstants.FlickrAPI.LAT)\(self.latitude)&\(FlickrConstants.FlickrAPI.LON)\(self.longitude)&\(FlickrConstants.FlickrAPI.FORMAT)\(FlickrConstants.FlickrAPIDetails.FORMAT)&\(FlickrConstants.FlickrAPI.NOJSONCALLBACK)\(FlickrConstants.FlickrAPIDetails.NOJSONCALLBACK)"
         
         return(flickrURL)
     } // End constructURLForFlickrAPI
+    
+    func getPinLocation(lat: String, lon: String) {
+        self.latitude = lat
+        self.longitude = lon
+    }
     
     func getPhotos(completionHandler: @escaping (_ result: [String:AnyObject]?, _ success: Bool, _ error:NSError?) -> Void) {
         
@@ -54,8 +65,6 @@ class FlickrClient : NSObject {
     
     func jsonParser(data: Data, completionHandler: (_ result: [String:AnyObject]?, _ success: Bool, _ error: NSError?) -> Void) {
         
-        //var parsedJSON = [String:AnyObject]()
-        
         do {
             let parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! NSDictionary
             //print(parsedResult)
@@ -70,7 +79,9 @@ class FlickrClient : NSObject {
             }
             
             for photoDictionary in photoArray {
-                print("Title is: ", photoDictionary["title"]!)
+                
+                print("Constructing URL for photo")
+                self.constructURL(id: photoDictionary["id"] as? String, server: photoDictionary["server"] as? String, farm: photoDictionary["farm"] as? Int, secret: photoDictionary["secret"] as? String)
             }
             
         } catch {
@@ -80,6 +91,20 @@ class FlickrClient : NSObject {
         completionHandler(nil, true, nil)
         
     } // End jsonParser
+    
+    // MARK: create the URL for the photos
+    func constructURL(id: String?, server: String?, farm: Int?, secret: String?) {
+        
+        // optional binding to unwrap optionals from parameters
+        if let id = id, let server = server, let farm = farm, let secret = secret {
+            let photoURL = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg"
+            photoURLArray.append(photoURL)
+            print(photoURLArray)
+        } else {
+            print("Unable to construct URL for photos.")
+        }
+        
+    } // end construcURL
     
     // MARK: Singleton pattern for a shared FlickrClient instance across the app
     class func sharedInstance() -> FlickrClient {

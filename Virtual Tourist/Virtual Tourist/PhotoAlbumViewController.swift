@@ -11,8 +11,12 @@ import MapKit
 
 class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegate, MKMapViewDelegate {
     
+    @IBOutlet weak var newCollectionButton: UIBarButtonItem!
+   
     override func viewDidLoad() {
+        
         self.navigationItem.title = "Virtual Tourist"
+        
         
         FlickrClient.sharedInstance().getPhotos( completionHandler: { (results, success, error) in
             
@@ -23,6 +27,10 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
             }
             
         })
-    }
+    } // End viewDidLoad()
+    
+    @IBAction func newCollectionButtonTapped(_ sender: Any) {
+    
+    } // End newCollectionButtonTapped
     
 } // End PhotoAlbumViewController

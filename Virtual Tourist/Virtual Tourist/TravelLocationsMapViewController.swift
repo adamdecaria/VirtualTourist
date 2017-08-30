@@ -66,7 +66,13 @@ class TravelLocationsMapViewController : UIViewController, UINavigationControlle
     } // End mapView()
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-  
+        
+        let location = view.annotation?.coordinate
+        let lat = location?.latitude.description
+        let lon = location?.longitude.description
+        
+        FlickrClient.sharedInstance().getPinLocation(lat: lat!, lon: lon!)
+        
         let photoAlbumVC = self.storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         self.navigationController?.pushViewController(photoAlbumVC, animated: true)
     } // End mapView()
