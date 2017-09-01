@@ -13,7 +13,7 @@ class FlickrClient : NSObject {
     private var latitude: String = ""
     private var longitude: String = ""
     
-    private var photoURLArray = [String]()
+    var photoURLArray = [String]()
     
     
     func constructURLForFlickrAPI() -> String {
@@ -80,7 +80,6 @@ class FlickrClient : NSObject {
             
             for photoDictionary in photoArray {
                 
-                print("Constructing URL for photo")
                 self.constructURL(id: photoDictionary["id"] as? String, server: photoDictionary["server"] as? String, farm: photoDictionary["farm"] as? Int, secret: photoDictionary["secret"] as? String)
             }
             
@@ -99,7 +98,7 @@ class FlickrClient : NSObject {
         if let id = id, let server = server, let farm = farm, let secret = secret {
             let photoURL = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg"
             photoURLArray.append(photoURL)
-            print(photoURLArray)
+            print("Photo URL appended: ", photoURL)
         } else {
             print("Unable to construct URL for photos.")
         }

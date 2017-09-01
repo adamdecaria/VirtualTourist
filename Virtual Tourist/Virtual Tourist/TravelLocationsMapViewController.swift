@@ -73,8 +73,23 @@ class TravelLocationsMapViewController : UIViewController, UINavigationControlle
         
         FlickrClient.sharedInstance().getPinLocation(lat: lat!, lon: lon!)
         
+        FlickrClient.sharedInstance().getPhotos( completionHandler: { (results, success, error) in
+                
+            if success {
+                print("Success!")
+            } else {
+                print("Error")
+            }
+            
+            DispatchQueue.main.async {
+                self.moveToPhotoAlbumView()
+            }
+        })
+    } // End mapView()
+    
+    func moveToPhotoAlbumView() {
         let photoAlbumVC = self.storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         self.navigationController?.pushViewController(photoAlbumVC, animated: true)
-    } // End mapView()
+    } // End moveToPhotoAlbumView()
 
 } // End TravelLocationsMapViewController
