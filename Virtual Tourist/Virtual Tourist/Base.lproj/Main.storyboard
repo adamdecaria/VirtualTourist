@@ -92,7 +92,7 @@
                                 </items>
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Kc2-6x-wAY">
-                                <rect key="frame" x="40" y="198" width="240" height="128"/>
+                                <rect key="frame" x="0.0" y="189" width="320" height="335"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="lPS-O5-pwj">
@@ -125,17 +125,12 @@
                                     <outlet property="delegate" destination="I2h-JQ-aCg" id="Mce-ha-0cb"/>
                                 </connections>
                             </collectionView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fvP-hZ-G4f">
-                                <rect key="frame" x="40" y="396" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="newCollectionButton" destination="hDL-NW-Pxx" id="2hx-vM-bRk"/>
                         <outlet property="photoCollectionView" destination="Kc2-6x-wAY" id="nit-Ac-VFe"/>
-                        <outlet property="photoImage" destination="fvP-hZ-G4f" id="UOC-Sf-Tey"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JcS-t6-WVV" userLabel="First Responder" sceneMemberID="firstResponder"/>

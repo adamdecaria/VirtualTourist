@@ -98,7 +98,7 @@ class FlickrClient : NSObject {
         if let id = id, let server = server, let farm = farm, let secret = secret {
             let photoURL = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg"
             photoURLArray.append(photoURL)
-            print("Photo URL appended: ", photoURL)
+            //print("Photo URL appended: ", photoURL)
         } else {
             print("Unable to construct URL for photos.")
         }

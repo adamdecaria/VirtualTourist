@@ -13,23 +13,26 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
     
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     @IBOutlet weak var photoCollectionView: UICollectionView!
-    @IBOutlet weak var photoImage: UIImageView!
     
     var imageArray = [UIImage]()
     
     override func viewDidLoad() {
         
         self.navigationItem.title = "Virtual Tourist"
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.downloadPhotos()
+        }
 
     } // End viewDidLoad()
     
     @IBAction func newCollectionButtonTapped(_ sender: Any) {
-        self.downloadPhotos()
+        
     } // End newCollectionButtonTapped
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        print(FlickrClient.sharedInstance().photoURLArray.count)
+        print("Collection view count: ", FlickrClient.sharedInstance().photoURLArray.count)
         return FlickrClient.sharedInstance().photoURLArray.count
     } // End collectionView()
     
@@ -37,7 +40,9 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! PhotoAlbumCollectionViewCell
         
-        //cell.flickrPhoto.image = self.getImage()
+        let photo = imageArray[(indexPath as NSIndexPath).row]
+        cell.flickrPhoto.image = photo
+        
         return cell
     } // End collectionView()
     
@@ -49,7 +54,7 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
         while counter < FlickrClient.sharedInstance().photoURLArray.count {
             
             var photoURL = FlickrClient.sharedInstance().photoURLArray[counter]
-            print("Count is: ", counter)
+            //print("Count is: ", counter)
             
             let request = URLRequest(url: URL(string: photoURL)!)
             
@@ -73,11 +78,10 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
                 }
                 
                 self.imageArray.append(UIImage(data: data!)!)
-                print("New image added to list")
+                //print("New image added to list")
             }
             counter += 1
             task.resume()
-
         }
 
     } // End downloadPhotos()
