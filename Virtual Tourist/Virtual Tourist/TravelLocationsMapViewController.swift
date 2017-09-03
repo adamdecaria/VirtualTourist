@@ -82,12 +82,16 @@ class TravelLocationsMapViewController : UIViewController, UINavigationControlle
             }
             
             DispatchQueue.main.async {
-                self.moveToPhotoAlbumView()
+                FlickrClient.sharedInstance().downloadPhotos( completionHandler: { Void in
+                    print("Moving to Next View")
+                    self.moveToPhotoAlbumView() })
             }
         })
+        
     } // End mapView()
     
     func moveToPhotoAlbumView() {
+        
         let photoAlbumVC = self.storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         self.navigationController?.pushViewController(photoAlbumVC, animated: true)
     } // End moveToPhotoAlbumView()

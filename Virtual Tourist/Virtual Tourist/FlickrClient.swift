@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class FlickrClient : NSObject {
     
@@ -14,7 +15,7 @@ class FlickrClient : NSObject {
     private var longitude: String = ""
     
     var photoURLArray = [String]()
-    
+    var imageArray = [UIImage]()
     
     func constructURLForFlickrAPI() -> String {
     
@@ -28,7 +29,7 @@ class FlickrClient : NSObject {
         self.longitude = lon
     }
     
-    func getPhotos(completionHandler: @escaping (_ result: [String:AnyObject]?, _ success: Bool, _ error:NSError?) -> Void) {
+    func getPhotos(completionHandler: @escaping (_ result: [String:AnyObject]?, _ success: Bool, _ error: NSError?) -> Void) {
         
         let session = URLSession.shared
         let request = URLRequest(url: URL(string: constructURLForFlickrAPI())!)
@@ -105,6 +106,46 @@ class FlickrClient : NSObject {
         
     } // end construcURL
     
+    func downloadPhotos(completionHandler: @escaping () -> Void) {
+        
+        var counter = 0
+        let session  = URLSession.shared
+        
+        while counter < FlickrClient.sharedInstance().photoURLArray.count {
+            
+            let photoURL = FlickrClient.sharedInstance().photoURLArray[counter]
+            
+            let request = URLRequest(url: URL(string: photoURL)!)
+            
+            let task = session.dataTask(with: request) { data, response, error in
+                
+                print("Sent request to Flickr server... waiting on data.")
+                
+                guard (error == nil) else {
+                    print("Error retrieving photos from Flickr.")
+                    return
+                }
+                
+                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                    print("Error retrieving photos from Flickr - HTTP response")
+                    return
+                }
+                
+                guard (data != nil) else {
+                    print("There was an error - no data")
+                    return
+                }
+                
+                self.imageArray.append(UIImage(data: data!)!)
+                print("New image added to list")
+            }
+            counter += 1
+            task.resume()
+        } // end of while loop
+        
+        completionHandler()
+    } // End downloadPhotos()
+
     // MARK: Singleton pattern for a shared FlickrClient instance across the app
     class func sharedInstance() -> FlickrClient {
         struct FlickrSingleton {
