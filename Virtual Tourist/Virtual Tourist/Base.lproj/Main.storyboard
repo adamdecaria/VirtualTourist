@@ -109,6 +109,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="86" height="82"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="sAo-ZW-gBc">
+                                                    <rect key="frame" x="33" y="31" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XqX-02-CL9">
                                                     <rect key="frame" x="0.0" y="0.0" width="86" height="82"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -117,6 +121,7 @@
                                         </view>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
+                                            <outlet property="activityViewIndicator" destination="sAo-ZW-gBc" id="1g5-US-hJ8"/>
                                             <outlet property="flickrPhoto" destination="XqX-02-CL9" id="0qi-cc-7hw"/>
                                         </connections>
                                     </collectionViewCell>

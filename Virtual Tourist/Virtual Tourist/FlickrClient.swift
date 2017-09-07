@@ -29,7 +29,7 @@ class FlickrClient : NSObject {
         self.longitude = lon
     }
     
-    func getPhotos(completionHandler: @escaping (_ result: [String:AnyObject]?, _ success: Bool, _ error: NSError?) -> Void) {
+    func getPhotos() {
         
         let session = URLSession.shared
         let request = URLRequest(url: URL(string: constructURLForFlickrAPI())!)
@@ -41,34 +41,32 @@ class FlickrClient : NSObject {
             
             guard (error == nil) else {
                 print("Error retrieving photos from Flickr.")
-                completionHandler(nil, false, error as NSError?)
                 return
             }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
                 print("Error retrieving photos from Flickr - HTTP response")
-                completionHandler(nil, false, error as NSError?)
                 return
             }
             
             guard (data != nil) else {
                 print("There was an error - no data")
-                completionHandler(nil, false, error as NSError?)
                 return
             }
             print("Going to parse JSON...")
-            self.jsonParser(data: data!, completionHandler: completionHandler)
+            self.jsonParser(data: data!)
         }
         
         task.resume()
         
     } // End getPhotos()
     
-    func jsonParser(data: Data, completionHandler: (_ result: [String:AnyObject]?, _ success: Bool, _ error: NSError?) -> Void) {
+    func jsonParser(data: Data) {
         
         do {
             let parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! NSDictionary
-            //print(parsedResult)
+            print(parsedResult)
+            
             guard let photos = parsedResult["photos"] as? [String:AnyObject] else {
                 print("Cannot find key 'photos'")
                 return
@@ -88,8 +86,6 @@ class FlickrClient : NSObject {
             print("Error with JSON data")
         }
         
-        completionHandler(nil, true, nil)
-        
     } // End jsonParser
     
     // MARK: create the URL for the photos
@@ -104,46 +100,45 @@ class FlickrClient : NSObject {
             print("Unable to construct URL for photos.")
         }
         
-    } // end construcURL
+    } // end constructURL
     
-    func downloadPhotos(completionHandler: @escaping () -> Void) {
+    func downloadPhoto(photoURL: String) -> UIImage {
         
-        var counter = 0
+        var currImage = UIImage()
+        
         let session  = URLSession.shared
-        
-        while counter < FlickrClient.sharedInstance().photoURLArray.count {
             
-            let photoURL = FlickrClient.sharedInstance().photoURLArray[counter]
+        let request = URLRequest(url: URL(string: photoURL)!)
             
-            let request = URLRequest(url: URL(string: photoURL)!)
-            
-            let task = session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
                 
-                print("Sent request to Flickr server... waiting on data.")
-                
+            print("Sent request to Flickr server... waiting on data.")
+            
                 guard (error == nil) else {
                     print("Error retrieving photos from Flickr.")
                     return
                 }
                 
-                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                    print("Error retrieving photos from Flickr - HTTP response")
-                    return
-                }
-                
-                guard (data != nil) else {
-                    print("There was an error - no data")
-                    return
-                }
-                
-                self.imageArray.append(UIImage(data: data!)!)
-                print("New image added to list")
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Error retrieving photos from Flickr - HTTP response")
+                return
             }
-            counter += 1
-            task.resume()
-        } // end of while loop
+                
+            guard (data != nil) else {
+                print("There was an error - no data")
+                return
+            }
+            currImage = UIImage(data: data!)!
+        }
+
+        task.resume()
         
-        completionHandler()
+        self.imageArray.append(currImage)
+        print("New image added to list")
+
+        print("Image array size: ", imageArray.count)
+        return currImage
+
     } // End downloadPhotos()
 
     // MARK: Singleton pattern for a shared FlickrClient instance across the app

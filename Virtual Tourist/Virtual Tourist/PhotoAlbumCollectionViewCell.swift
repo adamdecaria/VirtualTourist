@@ -11,5 +11,17 @@ import UIKit
 class PhotoAlbumCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var flickrPhoto: UIImageView!
+    @IBOutlet weak var activityViewIndicator: UIActivityIndicatorView!
     
-}
+    override init(frame: CGRect) {
+        
+        super.init(frame: frame)
+        self.activityViewIndicator.hidesWhenStopped = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+    }
+    
+} // End PhotoAlbumCollectionViewCell

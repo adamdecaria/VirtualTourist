@@ -62,38 +62,22 @@ class TravelLocationsMapViewController : UIViewController, UINavigationControlle
             pinView?.annotation = annotation
         }
         
+        let lat = pinView?.annotation?.coordinate.latitude.description
+        let lon = pinView?.annotation?.coordinate.longitude.description
+        
+        FlickrClient.sharedInstance().getPinLocation(lat: lat!, lon: lon!)
+        FlickrClient.sharedInstance().getPhotos()
+        
         return pinView
     } // End mapView()
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        let location = view.annotation?.coordinate
-        let lat = location?.latitude.description
-        let lon = location?.longitude.description
-        
-        FlickrClient.sharedInstance().getPinLocation(lat: lat!, lon: lon!)
-        
-        FlickrClient.sharedInstance().getPhotos( completionHandler: { (results, success, error) in
-                
-            if success {
-                print("Success!")
-            } else {
-                print("Error")
-            }
-            
-            DispatchQueue.main.async {
-                FlickrClient.sharedInstance().downloadPhotos( completionHandler: { Void in
-                    print("Moving to Next View")
-                    self.moveToPhotoAlbumView() })
-            }
-        })
-        
-    } // End mapView()
-    
-    func moveToPhotoAlbumView() {
+        self.mapView.deselectAnnotation(view.annotation, animated: true)
         
         let photoAlbumVC = self.storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         self.navigationController?.pushViewController(photoAlbumVC, animated: true)
-    } // End moveToPhotoAlbumView()
-
+        
+    } // End mapView()
+    
 } // End TravelLocationsMapViewController
