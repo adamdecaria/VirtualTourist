@@ -20,7 +20,7 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
     } // End viewDidLoad()
     
     @IBAction func newCollectionButtonTapped(_ sender: Any) {
- 
+        self.photoCollectionView.reloadData()
     } // End newCollectionButtonTapped
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -36,7 +36,7 @@ class PhotoAlbumViewController : UIViewController, UINavigationControllerDelegat
             cell.activityViewIndicator.startAnimating()
         }
         
-        let photo = FlickrClient.sharedInstance().downloadPhoto(photoURL: FlickrClient.sharedInstance().photoURLArray[(indexPath as NSIndexPath).row])
+        let photo = FlickrClient.sharedInstance().imageArray[(indexPath as NSIndexPath).row]
         cell.flickrPhoto.image = photo
         
         return cell

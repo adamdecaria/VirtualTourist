@@ -75,6 +75,8 @@ class TravelLocationsMapViewController : UIViewController, UINavigationControlle
         
         self.mapView.deselectAnnotation(view.annotation, animated: true)
         
+        print("Image count: ", FlickrClient.sharedInstance().imageArray.count)
+        
         let photoAlbumVC = self.storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         self.navigationController?.pushViewController(photoAlbumVC, animated: true)
         

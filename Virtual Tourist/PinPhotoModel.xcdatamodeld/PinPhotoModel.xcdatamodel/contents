@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="MapPin" representedClassName="MapPin" syncable="YES" codeGenerationType="class">
+        <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" syncable="YES"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
+        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MapPin" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="MapPin" positionX="-254" positionY="-72" width="128" height="88"/>
+        <element name="Photo" positionX="252" positionY="117" width="128" height="58"/>
+    </elements>
+</model>

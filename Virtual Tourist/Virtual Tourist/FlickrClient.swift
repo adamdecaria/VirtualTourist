@@ -54,18 +54,18 @@ class FlickrClient : NSObject {
                 return
             }
             print("Going to parse JSON...")
-            self.jsonParser(data: data!)
+            self.jsonParser(data: data!, completionHandler: self.downloadPhotos)
         }
         
         task.resume()
         
     } // End getPhotos()
     
-    func jsonParser(data: Data) {
+    func jsonParser(data: Data, completionHandler: () -> Void) {
         
         do {
             let parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! NSDictionary
-            print(parsedResult)
+            //print(parsedResult)
             
             guard let photos = parsedResult["photos"] as? [String:AnyObject] else {
                 print("Cannot find key 'photos'")
@@ -86,6 +86,8 @@ class FlickrClient : NSObject {
             print("Error with JSON data")
         }
         
+        completionHandler()
+        
     } // End jsonParser
     
     // MARK: create the URL for the photos
@@ -102,42 +104,44 @@ class FlickrClient : NSObject {
         
     } // end constructURL
     
-    func downloadPhoto(photoURL: String) -> UIImage {
+    func downloadPhotos() {
         
-        var currImage = UIImage()
+        print("Starting download of photos")
         
+        var counter = 0
         let session  = URLSession.shared
+        
+        while counter < FlickrClient.sharedInstance().photoURLArray.count {
             
-        let request = URLRequest(url: URL(string: photoURL)!)
+            let photoURL = FlickrClient.sharedInstance().photoURLArray[counter]
             
-        let task = session.dataTask(with: request) { data, response, error in
+            let request = URLRequest(url: URL(string: photoURL)!)
+            
+            let task = session.dataTask(with: request) { data, response, error in
                 
-            print("Sent request to Flickr server... waiting on data.")
-            
+                print("Sent request to Flickr server... waiting on data.")
+                
                 guard (error == nil) else {
                     print("Error retrieving photos from Flickr.")
                     return
                 }
                 
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Error retrieving photos from Flickr - HTTP response")
-                return
-            }
+                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                    print("Error retrieving photos from Flickr - HTTP response")
+                    return
+                }
                 
-            guard (data != nil) else {
-                print("There was an error - no data")
-                return
+                guard (data != nil) else {
+                    print("There was an error - no data")
+                    return
+                }
+                
+                self.imageArray.append(UIImage(data: data!)!)
+                print("New image added to list")
             }
-            currImage = UIImage(data: data!)!
-        }
-
-        task.resume()
-        
-        self.imageArray.append(currImage)
-        print("New image added to list")
-
-        print("Image array size: ", imageArray.count)
-        return currImage
+            counter += 1
+            task.resume()
+        } // end of while loop
 
     } // End downloadPhotos()
 
